@@ -195,12 +195,13 @@ int main(int argc, char *argv[])
 	if (argc == 1 || argc > 3)
 	{
 		std::cout << HELP << "\n";
+		return 1;
 	}
 
 	if (!file_exists(argv[1]))
 	{
 		std::cout << "File \"" << argv[1] << "\" cannot be opened for reading\n";
-		return 1;
+		return 2;
 	}
 
 	bool do_backup = (argc == 3) && (strncmp(argv[2], "-b", 2) == 0);
