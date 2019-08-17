@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <stdexcept>
+#include <limits>
 
 constexpr const char *PROGRAM_NAME = "NFSU2SaveE";
 constexpr int MAJOR_VERSION = 1;
@@ -217,9 +218,28 @@ int main(int argc, char *argv[])
 			Money is represented as a 32bit signed number
 		*/
 		int32_t new_money = 0;
-		std::cout << "New Money(-1 to not change): ";
-		std::cin >> new_money;
-		std::cin.get();
+		while (true)
+		{
+			std::string s_new_money;
+			std::cout << "New Money(-1 to not change): ";
+			std::getline(std::cin, s_new_money);
+			
+			try
+			{
+				new_money = std::stol(s_new_money);
+				break;
+			}
+			catch (const std::invalid_argument& e)
+			{
+				continue;
+			}
+			catch (const std::out_of_range& e)
+			{
+				continue;
+			}
+		}
+		
+		
 		std::cout << "\n";
 
 		if (new_money != -1 && new_money > 0)
@@ -230,10 +250,28 @@ int main(int argc, char *argv[])
 		const long CAR_SLOTS_USED = save_file.car_slots_used();
 		for (long i = 0; i < CAR_SLOTS_USED; i++)
 		{
-			std::cout << "Change performance of car " << i + 1 << "? (0 Nill, 1 Max, 2 No effect): ";
 			int32_t option = 0;
-			std::cin >> option;
-			std::cin.get();
+			while (true)
+			{
+				std::string s_option;
+				std::cout << "Change performance of car " << i + 1 << "? (0 Nill, 1 Max, 2 No effect): ";
+				std::getline(std::cin, s_option);
+
+				try
+				{
+					option = std::stol(s_option);
+					break;
+				}
+				catch (const std::invalid_argument& e)
+				{
+					continue;
+				}
+				catch (const std::out_of_range& e)
+				{
+					continue;
+				}
+			}
+			
 
 			if (option == 0 || option == 1)
 			{
